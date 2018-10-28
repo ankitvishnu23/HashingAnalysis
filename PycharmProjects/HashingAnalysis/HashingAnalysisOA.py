@@ -12,6 +12,7 @@ class HashTableOA(object):
         self.numElements = 0
 
     def insertkey(self, index, value):
+        # if index is filled then iterate from beginning of list until open index
         if self.hashTable[index] != -1:
             start = 0
             self.collisions += 1
@@ -37,13 +38,10 @@ class HashTableSC(object):
         self.numElements = 0
 
     def insertkey(self, index, value):
+        # if value is filled then append bucket to list
         if self.hashTable[index][0] != -1:
             self.collisions += 1
             self.hashTable[index].append(value)
-            # start = 1
-            # while self.hashTable[index][start] != -1:
-            #     start += 1
-            # self.hashTable[index][start] = value
         else:
             self.hashTable[index][0] = value
         self.numElements += 1
@@ -155,6 +153,5 @@ for i in range(500):
         print("load factor OA Msq 3: ", hashOAMsqThree.numElements / 500, ", # of collisions: ", hashOAMsqThree.collisions)
         print("load factor SC Msq 3: ", hashSCMsqThree.numElements / 500, ", # of collisions: ", hashSCMsqThree.collisions)
         print("\n")
-
 
 
