@@ -38,13 +38,13 @@ class HashTableSC(object):
     def insertkey(self, index, value):
         if self.hashTable[index][0] != -1:
             self.collisions += 1
-            start = 0
+            start = 1
             while self.hashTable[index][start] != -1:
                 start += 1
                 self.collisions += 1
-            self.hashTable[start] = value
+            self.hashTable[index][start] = value
         else:
-            self.hashTable[index] = value
+            self.hashTable[index][0] = value
         self.numElements += 1
 
     def computehashmod(self, num):
