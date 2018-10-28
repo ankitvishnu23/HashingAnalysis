@@ -1,4 +1,6 @@
 import random
+import math
+
 class HashTableOA(object):
     hashTable = [-1] * 100
     collisions = 0
@@ -15,7 +17,6 @@ class HashTableOA(object):
             self.collisions += 1
             while self.hashTable[start] != -1:
                 start += 1
-                self.collisions += 1
             self.hashTable[start] = value
         else:
             self.hashTable[index] = value
@@ -41,7 +42,6 @@ class HashTableSC(object):
             start = 1
             while self.hashTable[index][start] != -1:
                 start += 1
-                self.collisions += 1
             self.hashTable[index][start] = value
         else:
             self.hashTable[index][0] = value
@@ -51,50 +51,104 @@ class HashTableSC(object):
         return num % len(self.hashTable)
 
 
-def computehashmsq(self, num):
+def computehashmsq(num, length):
     num *= num
+    if num < length:
+        return num
+
+    # getting the base 2 power of the squared number
+    power = math.log(num, 2)
+
+    if length == 100:
+        power -= 7
+    elif length == 250:
+        power -= 8
+    elif length == 500:
+        power -= 9
+    div = pow(2, math.ceil(power/2))
+    num = math.floor(num / div)
+    num = num % length
+    return num
 
 
 hashOAModOne = HashTableOA(100)
 hashOAModTwo = HashTableOA(250)
 hashOAModThree = HashTableOA(500)
+hashOAMsqOne = HashTableOA(100)
+hashOAMsqTwo = HashTableOA(250)
+hashOAMsqThree = HashTableOA(500)
 
 hashSCModOne = HashTableSC(100)
 hashSCModTwo = HashTableSC(250)
 hashSCModThree = HashTableSC(500)
+hashSCMsqOne = HashTableSC(100)
+hashSCMsqTwo = HashTableSC(250)
+hashSCMsqThree = HashTableSC(500)
+
 
 value = 12345
 
 for i in range(100):
     randNumOne = random.randint(0, 300)
-    keyOne = hashOAModOne.computehashmod(randNumOne)
-    hashOAModOne.insertkey(keyOne, value)
-    hashSCModOne.insertkey(keyOne, value)
+
+    # computing keys
+    keyOneMod = hashOAModOne.computehashmod(randNumOne)
+    keyOneMsq = computehashmsq(randNumOne, 100)
+
+    # inserting mod key and mid square key
+    hashOAModOne.insertkey(keyOneMod, value)
+    hashSCModOne.insertkey(keyOneMod, value)
+    hashOAMsqOne.insertkey(keyOneMsq, value)
+    hashSCMsqOne.insertkey(keyOneMsq, value)
+
     if hashOAModOne.numElements % 10 == 0:
-        print("load factor OA 1: ", hashOAModOne.numElements / 100, ", # of collisions: ", hashOAModOne.collisions)
-        print("load factor SC 1: ", hashSCModOne.numElements / 100, ", # of collisions: ", hashSCModOne.collisions)
+        print("load factor OA Mod 1: ", hashOAModOne.numElements / 100, ", # of collisions: ", hashOAModOne.collisions)
+        print("load factor SC Mod 1: ", hashSCModOne.numElements / 100, ", # of collisions: ", hashSCModOne.collisions)
+        print("load factor OA Msq 1: ", hashOAMsqOne.numElements / 100, ", # of collisions: ", hashOAMsqOne.collisions)
+        print("load factor SC Msq 1: ", hashSCMsqOne.numElements / 100, ", # of collisions: ", hashSCMsqOne.collisions)
 
 print("\n")
 
 for i in range(250):
     randNumTwo = random.randint(0, 750)
-    keyTwo = hashOAModTwo.computehashmod(randNumTwo)
-    hashOAModTwo.insertkey(keyTwo, value)
-    hashSCModTwo.insertkey(keyTwo, value)
+
+    # computing keys
+    keyTwoMod = hashOAModTwo.computehashmod(randNumTwo)
+    keyTwoMsq = computehashmsq(randNumTwo, 250)
+
+    # inserting keys
+    hashOAModTwo.insertkey(keyTwoMod, value)
+    hashSCModTwo.insertkey(keyTwoMod, value)
+    hashOAMsqTwo.insertkey(keyTwoMsq, value)
+    hashSCMsqTwo.insertkey(keyTwoMsq, value)
+
+
     if hashOAModTwo.numElements % 25 == 0:
-        print("load factor OA 2: ", hashOAModTwo.numElements / 250, ", # of collisions: ", hashOAModTwo.collisions)
-        print("load factor SC 2: ", hashSCModTwo.numElements / 250, ", # of collisions: ", hashSCModTwo.collisions)
+        print("load factor OA Mod 2: ", hashOAModTwo.numElements / 250, ", # of collisions: ", hashOAModTwo.collisions)
+        print("load factor SC Mod 2: ", hashSCModTwo.numElements / 250, ", # of collisions: ", hashSCModTwo.collisions)
+        print("load factor OA Msq 2: ", hashOAMsqTwo.numElements / 250, ", # of collisions: ", hashOAMsqTwo.collisions)
+        print("load factor SC Msq 2: ", hashSCMsqTwo.numElements / 250, ", # of collisions: ", hashSCMsqTwo.collisions)
 
 print("\n")
 
 for i in range(500):
     randNumThree = random.randint(0, 1500)
-    keyThree = hashOAModThree.computehashmod(randNumThree)
-    hashOAModThree.insertkey(keyThree, value)
-    hashSCModThree.insertkey(keyThree, value)
+
+    # computing keys
+    keyThreeMod = hashOAModThree.computehashmod(randNumThree)
+    keyThreeMsq = computehashmsq(randNumThree, 500)
+
+    # inserting keys
+    hashOAModThree.insertkey(keyThreeMod, value)
+    hashSCModThree.insertkey(keyThreeMod, value)
+    hashOAMsqThree.insertkey(keyThreeMsq, value)
+    hashSCMsqThree.insertkey(keyThreeMsq, value)
+
     if hashOAModThree.numElements % 50 == 0:
-        print("load factor OA 3: ", hashOAModThree.numElements / 500, ", # of collisions: ", hashOAModThree.collisions)
-        print("load factor SC 3: ", hashSCModThree.numElements / 500, ", # of collisions: ", hashSCModThree.collisions)
+        print("load factor OA Mod 3: ", hashOAModThree.numElements / 500, ", # of collisions: ", hashOAModThree.collisions)
+        print("load factor SC Mod 3: ", hashSCModThree.numElements / 500, ", # of collisions: ", hashSCModThree.collisions)
+        print("load factor OA Msq 3: ", hashOAMsqThree.numElements / 500, ", # of collisions: ", hashOAMsqThree.collisions)
+        print("load factor SC Msq 3: ", hashSCMsqThree.numElements / 500, ", # of collisions: ", hashSCMsqThree.collisions)
 
 
 
