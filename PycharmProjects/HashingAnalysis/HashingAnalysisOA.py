@@ -57,16 +57,17 @@ def computehashmsq(num, length):
     if num < 1:
         return num
 
-    # getting the base 2 power of the squared number
-    power = math.log(num, 2)
+    # getting the base 2 power of the squared number and the length
+    numPower = math.log(num, 2)
+    lengthPower = math.log(length, 2)
 
-    if length == 100:
-        power -= 7
-    elif length == 250:
-        power -= 8
-    elif length == 500:
-        power -= 9
-    div = pow(2, math.ceil(power/2))
+    # subtracting power of the length so that when divided it
+    # will remove half of unneeded indices
+    numPower -= lengthPower
+
+    # dividing the squared num to remove right most indices
+    # and then mod length to remove unneeded left indices
+    div = pow(2, math.ceil(numPower/2))
     num = math.floor(num / div)
     num = num % length
     return num
