@@ -27,22 +27,23 @@ class HashTableOA(object):
 
 
 class HashTableSC(object):
-    hashTable = [[-1] * 100 for i in range(100)]
+    hashTable = [[]]
     collisions = 0
     numElements = 0
 
     def __init__(self, size):
-        self.hashTable = [[-1] * size for i in range(size)]
+        self.hashTable = [[-1] for i in range(size)]
         self.collisions = 0
         self.numElements = 0
 
     def insertkey(self, index, value):
         if self.hashTable[index][0] != -1:
             self.collisions += 1
-            start = 1
-            while self.hashTable[index][start] != -1:
-                start += 1
-            self.hashTable[index][start] = value
+            self.hashTable[index].append(value)
+            # start = 1
+            # while self.hashTable[index][start] != -1:
+            #     start += 1
+            # self.hashTable[index][start] = value
         else:
             self.hashTable[index][0] = value
         self.numElements += 1
@@ -53,7 +54,9 @@ class HashTableSC(object):
 
 def computehashmsq(num, length):
     num *= num
-    if num < length:
+
+    # not able to perform operations if the squared value is 0
+    if num < 1:
         return num
 
     # getting the base 2 power of the squared number
@@ -106,6 +109,7 @@ for i in range(100):
         print("load factor SC Mod 1: ", hashSCModOne.numElements / 100, ", # of collisions: ", hashSCModOne.collisions)
         print("load factor OA Msq 1: ", hashOAMsqOne.numElements / 100, ", # of collisions: ", hashOAMsqOne.collisions)
         print("load factor SC Msq 1: ", hashSCMsqOne.numElements / 100, ", # of collisions: ", hashSCMsqOne.collisions)
+        print("\n")
 
 print("\n")
 
@@ -128,6 +132,7 @@ for i in range(250):
         print("load factor SC Mod 2: ", hashSCModTwo.numElements / 250, ", # of collisions: ", hashSCModTwo.collisions)
         print("load factor OA Msq 2: ", hashOAMsqTwo.numElements / 250, ", # of collisions: ", hashOAMsqTwo.collisions)
         print("load factor SC Msq 2: ", hashSCMsqTwo.numElements / 250, ", # of collisions: ", hashSCMsqTwo.collisions)
+        print("\n")
 
 print("\n")
 
@@ -149,6 +154,7 @@ for i in range(500):
         print("load factor SC Mod 3: ", hashSCModThree.numElements / 500, ", # of collisions: ", hashSCModThree.collisions)
         print("load factor OA Msq 3: ", hashOAMsqThree.numElements / 500, ", # of collisions: ", hashOAMsqThree.collisions)
         print("load factor SC Msq 3: ", hashSCMsqThree.numElements / 500, ", # of collisions: ", hashSCMsqThree.collisions)
+        print("\n")
 
 
 
