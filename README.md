@@ -1,2 +1,1 @@
-# Ms.PacmanRaider
-# Ms.PacmanRaider
+An analysis of various hashing table sizes and their effects on two hash table factors: collision resolution schemes, and key generation algorithms. There are two collision resolution schemes: Separate Chaining and Open Addressing. The two key generation algs are key mod table size and mid square hashing. 
